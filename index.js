@@ -16,14 +16,6 @@ const connection = mysql.createConnection(
 //WHEN I start the application THEN I am presented with the following options: 
 //view all departments, view all roles, view all employees, add a department, add a role, 
 //add an employee, and update an employee role
-
-function viewDepartments() {
-    connection.query('SELECT * FROM departments', function(err, results) {
-        console.table(results)
-    })
-}
-
-
 function init() {
     inquirer
         .prompt([
@@ -38,20 +30,77 @@ function init() {
                 ]
             }
         ])
-        .then((action) => {
-            console.log(action)
-            if (action = 'View all departments') {
-                viewDepartments()
-            }
-            else if (action = "View all roles") {
-                console.log(roles)
-                return
-            }
-            else {
-                console.log("Nope")
-            }
+        .then((data) => {
+            selection(data)
         })
-        return
+
+}
+
+function selection(data) {
+    switch (data.action) {
+        case 'View all departments':
+            viewDepartments();
+            break;
+        case "View all roles":
+            viewRoles();
+            break;
+        case 'View all employees':
+            viewEmployees()
+            break;
+        case 'Add a department':
+            addDepartment();
+            break;
+        case 'Add a role':
+            addRole();
+            break;
+        case 'Add an employee':
+            addEmployee();
+            break;
+        case 'Update an employee role':
+            updateRole();
+            break;
+    }
+}
+
+function viewDepartments() {
+    connection.query('SELECT * FROM departments', function (err, results) {
+        console.table(results);
+        init();
+    })
+}
+
+function viewRoles() {
+    connection.query('SELECT * FROM roles', function (err, results) {
+        console.table(results);
+        init();
+    })
+}
+
+function viewEmployees() {
+    connection.query('SELECT * FROM employees', function (err, results) {
+        console.table(results);
+        init();
+    })
+}
+
+function addDepartment() {
+    console.log("Add department!");
+    init();
+}
+
+function addRole() {
+    console.log("Add role!");
+    init();
+}
+
+function addEmployee() {
+    console.log("Add an employee");
+    init();
+}
+
+function updateRole() {
+    console.log("Update role!")
+    init();
 }
 
 init()
