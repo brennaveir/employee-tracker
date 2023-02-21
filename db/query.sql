@@ -1,8 +1,12 @@
-SELECT departments.department_name AS department, roles.title
+SELECT 
+departments.id,
+roles.title,
+departments.department_name AS department, 
+roles.salary
 FROM roles
 JOIN departments
 ON roles.department_id = departments.id
-ORDER BY departments.department_name;
+ORDER BY departments.id;
 
 
 SELECT 

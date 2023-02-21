@@ -26,7 +26,7 @@ function init() {
                 choices: [
                     'View all departments', 'View all roles',
                     'View all employees', 'Add a department', 'Add a role',
-                    'Add an employee', 'Update an employee role'
+                    'Add an employee', 'Update an employee role', 'Quit'
                 ]
             }
         ])
@@ -70,14 +70,14 @@ function viewDepartments() {
 }
 
 function viewRoles() {
-    connection.query('SELECT * FROM roles', function (err, results) {
+    connection.query('SELECT departments.id, roles.title, departments.department_name AS department, roles.salary FROM roles JOIN departments ON roles.department_id = departments.id ORDER BY departments.id;', function (err, results) {
         console.table(results);
         init();
     })
 }
 
 function viewEmployees() {
-    connection.query('SELECT * FROM employees', function (err, results) {
+    connection.query('SELECT employees.id, employees.first_name AS First, employees.last_name AS Last, roles.title AS Title, departments.department_name AS Department, roles.salary AS Salary, CONCAT(m.first_name, " ", m.last_name) AS Manager FROM departments JOIN roles ON departments.id = roles.department_id JOIN employees ON roles.id = employees.role_id LEFT OUTER JOIN employees m ON m.ID = employees.manager_id ORDER BY employees.id;', function (err, results) {
         console.table(results);
         init();
     })
