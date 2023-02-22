@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const cTable = require('console.table');
+// const bluebird = require('bluebird')
 
 const connection = mysql.createConnection(
     {
@@ -9,7 +10,8 @@ const connection = mysql.createConnection(
         user: 'root',
         // TODO: Add MySQL password
         password: 'H#raB3ra!',
-        database: 'tracker_db',
+        database: 'tracker_db'
+        // Promise: 'bluebird'
     },
     console.log(`Connected to the books_db database.`)
 );
@@ -83,24 +85,6 @@ function viewEmployees() {
     })
 }
 
-function addDepartment() {
-    console.log("Add department!");
-    init();
-}
-
-function addRole() {
-    console.log("Add role!");
-    init();
-}
-
-function addEmployee() {
-    console.log("Add an employee");
-    init();
-}
-
-function updateRole() {
-    console.log("Update role!")
-    init();
-}
+//NEED ASYNC functions
 
 init()

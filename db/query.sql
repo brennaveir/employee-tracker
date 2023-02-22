@@ -34,3 +34,4 @@ CONCAT(m.first_name, " ", m.last_name) AS Manager
 FROM employees e 
 LEFT OUTER JOIN employees m
 ON m.ID = e.manager_id ORDER BY e.ID;
+
