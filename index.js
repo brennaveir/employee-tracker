@@ -1,7 +1,6 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const cTable = require('console.table');
-// const bluebird = require('bluebird')
 
 const connection = mysql.createConnection(
     {
@@ -11,7 +10,6 @@ const connection = mysql.createConnection(
         // TODO: Add MySQL password
         password: 'H#raB3ra!',
         database: 'tracker_db'
-        // Promise: 'bluebird'
     },
     console.log(`Connected to the books_db database.`)
 );
@@ -85,6 +83,24 @@ function viewEmployees() {
     })
 }
 
-//NEED ASYNC functions
+function addDepartment() {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'department',
+                message: 'What is the name of the department you would like to add?'
+            }
+        ])
+        .then((data) => {
+            connection.promise().query(`INSERT INTO departments (department_name) VALUES ("${data.department}")`)
+            .then( ([rows,fields]) => {
+                console.table(`Added ${data.department} department`);
+              })
+              .catch(console.log)
+              .then( () => init());
+        })
+}
+
 
 init()
