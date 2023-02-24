@@ -98,9 +98,60 @@ function addDepartment() {
                 console.table(`Added ${data.department} department`);
               })
               .catch(console.log)
+              .then( () => viewDepartments());
+        })
+}
+
+function addRole() {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'roleTitle',
+                message: 'What is the title of the role?'
+            },
+            {
+                type: 'input',
+                name: 'roleSalary',
+                message: 'What is the salary of the role?'
+            },
+            {
+                type: 'list',
+                name: 'roleDepartment',
+                message: 'What is the department of the role?',
+                choices: '' //Need to get department names from sql table
+            }
+        ])
+        .then((data) => {
+            connection.promise().query(`INSERT INTO roles (title, salary, department_id) VALUES ("${data.roleTitle}"), ("${data.roleSalary}"), (${data.roleDepartment})`)
+            .then( (data) => {
+                console.table(`Added ${data.roleName}`);
+              })
+              .catch(console.log)
               .then( () => init());
         })
 }
+
+function updateRole {
+    inquirer
+    .prompt([
+        {
+            type: 'list',
+            name: 'employeeName',
+            message: 'What is the name of the employee you would like to update?',
+            choices: '' //Need to populate employee names
+        },
+        {
+            type: 'list',
+            name: 'employeeRole',
+            message: 'What is role you would like to assign to this employee?',
+            choices: '' //Need to poplate roles
+        }
+    ])
+    .then((data) => {
+        //update database
+    })
+} 
 
 
 init()
