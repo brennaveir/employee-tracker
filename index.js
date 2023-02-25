@@ -94,64 +94,142 @@ function addDepartment() {
         ])
         .then((data) => {
             connection.promise().query(`INSERT INTO departments (department_name) VALUES ("${data.department}")`)
-            .then( ([rows,fields]) => {
-                console.table(`Added ${data.department} department`);
-              })
-              .catch(console.log)
-              .then( () => viewDepartments());
+                .then(([rows, fields]) => {
+                    console.table(`Added ${data.department} department`);
+                })
+                .catch(console.log)
+                .then(() => viewDepartments());
         })
 }
 
 function addRole() {
-    inquirer
-        .prompt([
-            {
-                type: 'input',
-                name: 'roleTitle',
-                message: 'What is the title of the role?'
-            },
-            {
-                type: 'input',
-                name: 'roleSalary',
-                message: 'What is the salary of the role?'
-            },
-            {
-                type: 'list',
-                name: 'roleDepartment',
-                message: 'What is the department of the role?',
-                choices: '' //Need to get department names from sql table
-            }
-        ])
-        .then((data) => {
-            connection.promise().query(`INSERT INTO roles (title, salary, department_id) VALUES ("${data.roleTitle}"), ("${data.roleSalary}"), (${data.roleDepartment})`)
-            .then( (data) => {
-                console.table(`Added ${data.roleName}`);
-              })
-              .catch(console.log)
-              .then( () => init());
+    connection.promise().query('SELECT * FROM departments')
+        .then((departmentRows) => {
+            inquirer
+                .prompt([
+                    {
+                        type: 'input',
+                        name: 'roleTitle',
+                        message: 'What is the title of the role?'
+                    },
+                    {
+                        type: 'input',
+                        name: 'roleSalary',
+                        message: 'What is the salary of the role?'
+                    },
+                    {
+                        type: 'list',
+                        name: 'roleDepartment',
+                        message: 'What is the department of the role?',
+                        choices: departmentRows[0].map((row) => {
+                            return {
+                                name: row.department_name,
+                                value: row.id
+                            }
+                        })
+                    }
+                ])
+                .then((data) => {
+                    connection.promise().query(`INSERT INTO roles (title, salary, department_id) VALUES ('${data.roleTitle}', ${data.roleSalary}, ${data.roleDepartment})`)
+                        .then((data) => {
+                            console.table(`Added ${data.roleTitle}`);
+                        })
+                        .catch(console.log)
+                        .then(() => viewRoles());
+                })
         })
 }
 
-function updateRole {
-    inquirer
-    .prompt([
-        {
-            type: 'list',
-            name: 'employeeName',
-            message: 'What is the name of the employee you would like to update?',
-            choices: '' //Need to populate employee names
-        },
-        {
-            type: 'list',
-            name: 'employeeRole',
-            message: 'What is role you would like to assign to this employee?',
-            choices: '' //Need to poplate roles
+function addEmployee() {
+    connection.promise().query('SELECT id, title FROM roles')
+        .then((rolesRows) => {
+            connection.promise().query('SELECT id, first_name, last_name FROM employees')
+            .then((employeeRows) => {
+                    inquirer
+                        .prompt([
+                            {
+                                type: 'input',
+                                name: 'firstName',
+                                message: 'What is the first name of the employee?'
+                            },
+                            {
+                                type: 'input',
+                                name: 'lastName',
+                                message: 'What is the last name of the employee?'
+                            },
+                            {
+                                type: 'list',
+                                name: 'employeeManager',
+                                message: 'Who is the manager of the employee?',
+                                choices: employeeRows[0].map((row) => {
+                                    return {
+                                        name: `${row.first_name} ${row.last_name}`,
+                                        value: row.id
+                                    }
+                                })
+                            },
+                            {
+                                type: 'list',
+                                name: 'employeeRole',
+                                message: 'What is the role of the employee?',
+                                choices: rolesRows[0].map((row) => {
+                                    return {
+                                        name: row.title,
+                                        value: row.id
+                                    }
+                                })
+                            }
+                        ])
+                        .then((data) => {
+                            connection.promise().query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${data.firstName}", "${data.lastName}", ${data.employeeRole}, ${data.employeeManager})`)
+                        })
+                        .catch(console.log)
+                        .then(() => viewEmployees());
+                })
+                })
         }
-    ])
-    .then((data) => {
-        //update database
-    })
-} 
+
+
+function updateRole() {
+    connection.promise().query(`SELECT id, first_name, last_name FROM employees`)
+        .then((employeeRow) => {
+            connection.promise().query('SELECT id, title FROM roles')
+                .then((rolesRow) => {
+                    inquirer
+                        .prompt([
+                            {
+                                type: 'list',
+                                name: 'employeeName',
+                                message: 'What is the name of the employee you would like to update?',
+                                choices: employeeRow[0].map((row) => {
+                                    return {
+                                        name: `${row.first_name} ${row.last_name}`,
+                                        value: row.id
+                                    }
+                                })
+                            },
+                            {
+                                type: 'list',
+                                name: 'employeeRole',
+                                message: 'What is role you would like to assign to this employee?',
+                                choices: rolesRow[0].map((row) => {
+                                    return {
+                                        name: row.title,
+                                        value: row.id
+                                    }
+                                })
+                            }
+                        ])
+                        .then((data) => {
+                            connection.promise().query(`UPDATE employees SET role_id = ? WHERE id = ?`, [data.employeeRole, data.employeeName])
+                        })
+                        .catch(console.log)
+                        .then(() => viewEmployees());
+                })
+        })
+
+}
+
 
 
 init()
