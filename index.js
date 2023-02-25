@@ -26,7 +26,7 @@ function init() {
                 choices: [
                     'View all departments', 'View all roles',
                     'View all employees', 'Add a department', 'Add a role',
-                    'Add an employee', 'Update an employee role', 'Quit'
+                    'Add an employee', 'Update an employee role'
                 ]
             }
         ])
@@ -61,7 +61,6 @@ function selection(data) {
             break;
     }
 }
-
 function viewDepartments() {
     connection.query('SELECT * FROM departments', function (err, results) {
         console.table(results);
@@ -144,7 +143,7 @@ function addEmployee() {
     connection.promise().query('SELECT id, title FROM roles')
         .then((rolesRows) => {
             connection.promise().query('SELECT id, first_name, last_name FROM employees')
-            .then((employeeRows) => {
+                .then((employeeRows) => {
                     inquirer
                         .prompt([
                             {
@@ -186,8 +185,8 @@ function addEmployee() {
                         .catch(console.log)
                         .then(() => viewEmployees());
                 })
-                })
-        }
+        })
+}
 
 
 function updateRole() {
@@ -229,7 +228,6 @@ function updateRole() {
         })
 
 }
-
 
 
 init()
