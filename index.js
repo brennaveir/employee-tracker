@@ -11,7 +11,7 @@ const connection = mysql.createConnection(
         password: 'H#raB3ra!',
         database: 'tracker_db'
     },
-    console.log(`Connected to the books_db database.`)
+    console.log(`Connected to the tracker_db database.`)
 );
 //WHEN I start the application THEN I am presented with the following options: 
 //view all departments, view all roles, view all employees, add a department, add a role, 
@@ -93,7 +93,7 @@ function addDepartment() {
         ])
         .then((data) => {
             connection.promise().query(`INSERT INTO departments (department_name) VALUES ("${data.department}")`)
-                .then(([rows, fields]) => {
+                .then((data) => {
                     console.table(`Added ${data.department} department`);
                 })
                 .catch(console.log)
