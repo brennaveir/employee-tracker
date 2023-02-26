@@ -93,9 +93,7 @@ function addDepartment() {
         ])
         .then((data) => {
             connection.promise().query(`INSERT INTO departments (department_name) VALUES ("${data.department}")`)
-                .then((data) => {
-                    console.log(`Added department`);
-                })
+                .then(console.log(`Added department`))
                 .catch(console.log)
                 .then(() => viewDepartments());
         })
@@ -130,9 +128,7 @@ function addRole() {
                 ])
                 .then((data) => {
                     connection.promise().query(`INSERT INTO roles (title, salary, department_id) VALUES ('${data.roleTitle}', ${data.roleSalary}, ${data.roleDepartment})`)
-                        .then((data) => {
-                            console.log(`Added role`);
-                        })
+                        .then(console.log(`Added role`))
                         .catch(console.log)
                         .then(() => viewRoles());
                 })
