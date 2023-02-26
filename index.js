@@ -94,7 +94,7 @@ function addDepartment() {
         .then((data) => {
             connection.promise().query(`INSERT INTO departments (department_name) VALUES ("${data.department}")`)
                 .then((data) => {
-                    console.table(`Added ${data.department} department`);
+                    console.log(`Added department`);
                 })
                 .catch(console.log)
                 .then(() => viewDepartments());
@@ -114,7 +114,7 @@ function addRole() {
                     {
                         type: 'input',
                         name: 'roleSalary',
-                        message: 'What is the salary of the role?'
+                        message: 'What is the salary of the role? (ex. xxxxxx.xx)',
                     },
                     {
                         type: 'list',
@@ -131,7 +131,7 @@ function addRole() {
                 .then((data) => {
                     connection.promise().query(`INSERT INTO roles (title, salary, department_id) VALUES ('${data.roleTitle}', ${data.roleSalary}, ${data.roleDepartment})`)
                         .then((data) => {
-                            console.table(`Added ${data.roleTitle}`);
+                            console.log(`Added role`);
                         })
                         .catch(console.log)
                         .then(() => viewRoles());
@@ -180,7 +180,8 @@ function addEmployee() {
                             }
                         ])
                         .then((data) => {
-                            connection.promise().query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${data.firstName}", "${data.lastName}", ${data.employeeRole}, ${data.employeeManager})`)
+                            connection.promise().query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${data.firstName}", "${data.lastName}", ${data.employeeRole}, ${data.employeeManager})`);
+                            console.log('Added employee')
                         })
                         .catch(console.log)
                         .then(() => viewEmployees());
@@ -220,7 +221,8 @@ function updateRole() {
                             }
                         ])
                         .then((data) => {
-                            connection.promise().query(`UPDATE employees SET role_id = ? WHERE id = ?`, [data.employeeRole, data.employeeName])
+                            connection.promise().query(`UPDATE employees SET role_id = ? WHERE id = ?`, [data.employeeRole, data.employeeName]);
+                            console.log('Updated role')
                         })
                         .catch(console.log)
                         .then(() => viewEmployees());
