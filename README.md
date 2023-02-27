@@ -16,14 +16,21 @@ A command-line application that manages a company's employee database, using Nod
 
 
 ## Usage
-[![Screenshot1](./screenshots/Screenshot_1.png)
-[![Screenshot2](./screenshots/Screenshot_2.png)
-[![Screenshot1](./screenshots/Screenshot_3.png)
-[![Screenshot2](./screenshots/Screenshot_4.png)
-[![Screenshot1](./screenshots/Screenshot_5.png)
-[![Screenshot2](./screenshots/Screenshot_6.png)
-[![Screenshot1](./screenshots/Screenshot_7.png)
-[![Screenshot2](./screenshots/Screenshot_8.png)
+![Screenshot1](./screenshots/Screenshot_1.png)
+
+![Screenshot2](./screenshots/Screenshot_2.png)
+
+![Screenshot1](./screenshots/Screenshot_3.png)
+
+![Screenshot2](./screenshots/Screenshot_4.png)
+
+![Screenshot1](./screenshots/Screenshot_5.png)
+
+![Screenshot2](./screenshots/Screenshot_6.png)
+
+![Screenshot1](./screenshots/Screenshot_7.png)
+
+![Screenshot2](./screenshots/Screenshot_8.png)
 
 
 [Watch video here for tutorial](https://drive.google.com/file/d/1Ee8wTFnrOKQkxaHQXEy3c8lNmDIsWt4b/view)
