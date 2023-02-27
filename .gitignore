@@ -117,5 +117,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# screenshot files
-screenshots
+
